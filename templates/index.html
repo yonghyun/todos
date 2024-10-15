@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
+
 {% block content %}
+    <!-- 이미지 컨테이너 -->
+    <div class="image-container">
+        <img src="{{ url_for('static', path='image/list.jpg') }}" alt="To-Do List Image">
+    </div>    
+
     <form action="/add" method="post">
         <textarea name="task" rows="5" placeholder="Enter your task" id="task"></textarea>
         <button type="submit" id="add_task">Add</button>
