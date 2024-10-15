@@ -1,13 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
-</head>
-<body>
-    <h1>Todo App</h1>
-    <p>{{ todos }}</p>
-    <p>{{ hello }}</p> <!-- hello 변수를 출력 -->
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <form action="/add" method="post">
+        <textarea name="task" rows="5" placeholder="Enter your task" id="task"></textarea>
+        <button type="submit" id="add_task">Add</button>
+    </form>
+
+    <br>
+    <h2>Tasks</h2>
+
+    <div>
+      {% if todos|length == 0 %}
+        <br>
+        <p> 입력한 TODO 메모가 없습니다. </p>
+      {% else %}
+        {% for todo in todos %}
+        <div class="task">
+            {% if todo.completed %}
+                <strike>{{ todo.task }}</strike>
+            {% else %}
+                {{ todo.task }}
+            {% endif %}
+            <small>
+                <a href="edit/{{ todo.id }}">Edit</a>
+                <a href="delete/{{ todo.id }}">Delete</a>
+            </small>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+<script src="{{ url_for('static', path='js/main.js') }}"></script>
+{% endblock script %}
