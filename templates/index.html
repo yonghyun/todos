@@ -1,42 +1,53 @@
 {% extends 'base.html' %}
+<!-- base.html을 기본 템플릿으로 사용하여 확장함. 이 템플릿의 공통 레이아웃과 스타일을 유지. -->
 
 {% block content %}
+    <!-- 'content'라는 블록을 시작하여 'base.html'에서 content 부분에 이 내용을 삽입함 -->
+    
     <!-- 이미지 컨테이너 -->
     <div class="image-container">
         <img src="{{ url_for('static', path='image/list.jpg') }}" alt="To-Do List Image">
+        <!-- static 폴더의 'image/list.jpg' 이미지를 로드하여 출력 -->
+        <!-- url_for 함수는 주어진 파일 경로를 통해 실제 URL을 생성함 -->
     </div>    
 
     <form action="/add" method="post">
         <textarea name="task" rows="5" placeholder="Enter your task" id="task"></textarea>
+        <!-- 사용자가 새로 입력할 To-Do 항목을 위한 입력 필드. 'task'라는 이름을 가진 텍스트 영역임. -->
         <button type="submit" id="add_task">Add</button>
+        <!-- 사용자가 To-Do 항목을 추가할 때 누르는 버튼 -->
     </form>
 
     <br>
     <h2>Tasks</h2>
+    <!-- 페이지에 표시되는 현재 To-Do 리스트 제목 -->
 
     <div>
       {% if todos|length == 0 %}
         <br>
         <p> 입력한 TODO 메모가 없습니다. </p>
+        <!-- todos 리스트가 비어 있는 경우 메시지를 표시함 -->
       {% else %}
         {% for todo in todos %}
         <div class="task">
             {% if todo.completed %}
                 <strike>{{ todo.task }}</strike>
+                <!-- To-Do 항목이 완료되었으면 줄이 그어진 상태로 출력 -->
             {% else %}
                 {{ todo.task }}
+                <!-- To-Do 항목이 완료되지 않았으면 일반 텍스트로 출력 -->
             {% endif %}
             <small>
                 <a href="edit/{{ todo.id }}">Edit</a>
+                <!-- To-Do 항목 편집을 위한 링크. todo의 ID를 URL에 포함하여 특정 항목을 편집 -->
                 <a href="delete/{{ todo.id }}">Delete</a>
+                <!-- To-Do 항목 삭제를 위한 링크. todo의 ID를 URL에 포함하여 특정 항목을 삭제 -->
             </small>
         </div>
         {% endfor %}
+        <!-- todos 리스트의 모든 항목을 하나씩 반복하여 출력 -->
       {% endif %}
     </div>
 
 {% endblock content %}
-
-{% block script %}
-<script src="{{ url_for('static', path='js/main.js') }}"></script>
-{% endblock script %}
+<!-- 'content' 블록 종료. base.html에 정의된 content 블록에 삽입됨 -->
